@@ -4,7 +4,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const itemController = require('./controllers/itemController');
-// const bodyParser = require('body-parser');
+const itemRoutes = require("./routes/ItemRoutes");
 
 // Initialize Express app
 const app = express();
@@ -19,14 +19,13 @@ app.set('view engine', 'ejs');
 
 // Middleware to parse URL-encoded bodies (form data)
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // Serve static files from the public directory
 app.use('/public', express.static('public'));
 
 // Define routes for the application
-app.get('/', itemController.getItems);            // Route to display all items
-app.post('/add-item', itemController.addItem);    // Route to add a new item
-app.post('/delete-item/:id', itemController.deleteItem); // Route to delete an item
+app.use('/',itemRoutes);
 
 // Start the server on port 3000
 app.listen(3000, () => {
